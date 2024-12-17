@@ -1,9 +1,12 @@
+I'll enhance the fun fact generator with better animations, images, and visual elements. Here's an improved version:
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fun Fact Generator</title>
+    <title>Enhanced Fun Fact Generator</title>
     <style>
         * {
             margin: 0;
@@ -12,56 +15,144 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f2f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a73e8, #0d47a1);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+            color: #333;
         }
 
         .container {
             text-align: center;
             padding: 2rem;
-            max-width: 600px;
+            max-width: 800px;
+            perspective: 1000px;
         }
 
         h1 {
-            color: #1a73e8;
+            color: white;
             margin-bottom: 2rem;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: floatTitle 3s ease-in-out infinite;
         }
 
         .fact-box {
-            background-color: white;
+            background: rgba(255, 255, 255, 0.95);
             padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             margin-bottom: 1.5rem;
+            transition: transform 0.5s ease;
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+        }
+
+        .fact-box:hover {
+            transform: translateY(-5px) rotateX(5deg);
+        }
+
+        #fact-text {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .fact-box.show-fact #fact-text {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .fact-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #1a73e8;
         }
 
         #generate-btn {
-            padding: 1rem 2rem;
-            font-size: 1.1rem;
-            background-color: #1a73e8;
+            padding: 1rem 2.5rem;
+            font-size: 1.2rem;
+            background: linear-gradient(45deg, #1a73e8, #1557b0);
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 50px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
         }
 
         #generate-btn:hover {
-            background-color: #1557b0;
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        #generate-btn:active {
+            transform: translateY(0);
+        }
+
+        #generate-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        #generate-btn:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        @keyframes floatTitle {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .category-icon {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 1rem;
+            animation: spin 20s linear infinite;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            pointer-events: none;
+            animation: confettiFall 4s ease-in-out infinite;
+        }
+
+        @keyframes confettiFall {
+            0% { transform: translateY(-100vh) rotate(0deg); }
+            100% { transform: translateY(100vh) rotate(360deg); }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Fun Fact Generator</h1>
+        <h1>✨ Fun Fact Generator ✨</h1>
         <div class="fact-box">
+            <img src="https://cdn-icons-png.flaticon.com/512/1378/1378598.png" class="category-icon" alt="Knowledge Icon">
             <p id="fact-text">Click the button to get a random fun fact!</p>
         </div>
-        <button id="generate-btn">Generate Fact</button>
+        <button id="generate-btn">Generate Fact ✨</button>
     </div>
 
     <script>
@@ -78,15 +169,39 @@
             "Bananas are berries, but strawberries aren't!"
         ];
 
+        const factBox = document.querySelector('.fact-box');
         const factText = document.getElementById('fact-text');
         const generateBtn = document.getElementById('generate-btn');
 
+        function createConfetti() {
+            const colors = ['#1a73e8', '#4285f4', '#34a853', '#fbbc05', '#ea4335'];
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = Math.random() * 3 + 's';
+                document.body.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 4000);
+            }
+        }
+
         function generateFact() {
-            const randomIndex = Math.floor(Math.random() * facts.length);
-            factText.textContent = facts[randomIndex];
+            factBox.classList.remove('show-fact');
+            setTimeout(() => {
+                const randomIndex = Math.floor(Math.random() * facts.length);
+                factText.textContent = facts[randomIndex];
+                factBox.classList.add('show-fact');
+                createConfetti();
+            }, 300);
         }
 
         generateBtn.addEventListener('click', generateFact);
     </script>
 </body>
 </html>
+
+
+To use this version, simply save it as `index.html` and open it in a browser. The confetti effect, smooth transitions, and interactive elements make it more engaging than the previous version.
+
+Note: The knowledge icon uses a URL from flaticon.com. For production use, you should download and host the icon locally or use your own custom icons.
