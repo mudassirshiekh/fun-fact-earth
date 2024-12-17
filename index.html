@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fun Fact Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            text-align: center;
+            padding: 2rem;
+            max-width: 600px;
+        }
+
+        h1 {
+            color: #1a73e8;
+            margin-bottom: 2rem;
+        }
+
+        .fact-box {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+        }
+
+        #generate-btn {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #generate-btn:hover {
+            background-color: #1557b0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Fun Fact Generator</h1>
+        <div class="fact-box">
+            <p id="fact-text">Click the button to get a random fun fact!</p>
+        </div>
+        <button id="generate-btn">Generate Fact</button>
+    </div>
+
+    <script>
+        const facts = [
+            "Honey never spoils. Archaeologists have found pots of honey in ancient Egyptian tombs that are over 3,000 years old!",
+            "A day on Venus is longer than its year. It takes Venus 243 Earth days to rotate on its axis but only 225 Earth days to orbit the Sun.",
+            "The shortest war in history was between Britain and Zanzibar on August 27, 1896. Zanzibar surrendered after just 38 minutes.",
+            "The first oranges weren't orange! The original oranges from Southeast Asia were actually green.",
+            "A group of flamingos is called a 'flamboyance'.",
+            "Cows have best friends and get stressed when separated from them.",
+            "The average person spends 6 months of their lifetime waiting for red lights to turn green.",
+            "A baby puffin is called a puffling.",
+            "The fingerprints of koalas are so similar to human fingerprints that they have on occasion been confused at a crime scene.",
+            "Bananas are berries, but strawberries aren't!"
+        ];
+
+        const factText = document.getElementById('fact-text');
+        const generateBtn = document.getElementById('generate-btn');
+
+        function generateFact() {
+            const randomIndex = Math.floor(Math.random() * facts.length);
+            factText.textContent = facts[randomIndex];
+        }
+
+        generateBtn.addEventListener('click', generateFact);
+    </script>
+</body>
+</html>
